@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ department_name }} | Slotly</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a class="logo" href="{{ url_for('index') }}">Slotly</a>
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('cancel') }}">Cancel Booking</a>
+    </div>
+</nav>
+
+<main class="container">
+    <section class="hero">
+        <h1>{{ department_name }}</h1>
+        <p>Select an available date and time to book your appointment.</p>
+    </section>
+
+    <a href="{{ url_for('index') }}">← Back to Departments</a>
+
+    {% if slots %}
+    <section class="slot-grid">
+        {% for slot in slots %}
+        <article class="slot-card">
+            <h2>{{ slot.service_name }}</h2>
+            <p><strong>Date:</strong> {{ slot.slot_date }}</p>
+            <p><strong>Start:</strong> {{ slot.start_time }}</p>
+            <p><strong>End:</strong> {{ slot.end_time }}</p>
+
+            <a class="btn"
+               href="{{ url_for('book', slot_id=slot.id) }}">
+                Book Appointment
+            </a>
+        </article>
+        {% endfor %}
+    </section>
+    {% else %}
+    <p>No available appointments for this department. Please check again later.</p>
+    {% endif %}
+</main>
+
+<footer class="footer">
+    <p>© Slotly Appointment Booking System</p>
+</footer>
+
+</body>
+</html>

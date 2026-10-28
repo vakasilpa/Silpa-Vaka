@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slotly | Choose a Department</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a class="logo" href="{{ url_for('index') }}">Slotly</a>
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('cancel') }}">Cancel Booking</a>
+        <a href="{{ url_for('admin_login') }}">Admin</a>
+    </div>
+</nav>
+
+<main class="container">
+    <section class="hero">
+        <h1>Book Your Appointment</h1>
+        <p>Choose a department to view available appointment slots.</p>
+    </section>
+
+    <section class="slot-grid">
+        {% for department in departments %}
+        <article class="slot-card">
+            <div class="department-icon">{{ department.icon }}</div>
+            <h2>{{ department.name }}</h2>
+            <p>{{ department.description }}</p>
+
+            <a class="btn"
+               href="{{ url_for('department_slots',
+                                department_name=department.name) }}">
+                View Available Slots
+            </a>
+        </article>
+        {% endfor %}
+    </section>
+</main>
+
+<footer class="footer">
+    <p>© Slotly Appointment Booking System</p>
+</footer>
+
+</body>
+</html>

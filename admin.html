@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <h1>Admin Dashboard</h1>
+
+        {% for message in get_flashed_messages() %}
+            <p class="message">{{ message }}</p>
+        {% endfor %}
+
+        <p><a href="{{ url_for('index') }}">Public booking page</a> |
+           <a href="{{ url_for('admin_logout') }}">Logout</a></p>
+
+        <h2>Add appointment slot</h2>
+        <form method="POST" action="{{ url_for('add_slot') }}">
+            <label for="service_name">Service name</label>
+            <input id="service_name" name="service_name"
+                   maxlength="100" required>
+
+            <label for="slot_date">Date</label>
+            <input id="slot_date" name="slot_date"
+                   type="date" min="{{ '' }}" required>
+
+            <label for="start_time">Start time</label>
+            <input id="start_time" name="start_time" type="time" required>
+
+            <label for="end_time">End time</label>
+            <input id="end_time" name="end_time" type="time" required>
+
+            <button type="submit">Add slot</button>
+        </form>
+
+        <h2>All slots and bookings</h2>
+        {% for slot in slots %}
+            <section class="card">
+                <h3>{{ slot.service_name }}</h3>
+                <p>{{ slot.slot_date }} | {{ slot.start_time }} – {{ slot.end_time }}</p>
+                <p>Status: {{ "Booked" if slot.is_booked else "Available" }}</p>
+
+                {% if slot.customer_name %}
+                    <p>Customer: {{ slot.customer_name }}</p>
+                    <p>Email: {{ slot.customer_email }}</p>
+                {% endif %}
+
+                <form method="POST"
+                      action="{{ url_for('delete_slot', slot_id=slot.id) }}">
+                    <button type="submit"
+                            {% if slot.is_booked %}disabled{% endif %}>
+                        Delete slot
+                    </button>
+                </form>
+            </section>
+        {% else %}
+            <p>No slots have been created.</p>
+        {% endfor %}
+    </main>
+</body>
+</html>

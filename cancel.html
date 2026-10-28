@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cancel Appointment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <h1>Cancel Appointment</h1>
+
+        {% for message in get_flashed_messages() %}
+            <p class="message">{{ message }}</p>
+        {% endfor %}
+
+        <p>Enter the booking ID shown after booking and the same email address.</p>
+
+        <form method="POST">
+            <label for="appointment_id">Booking ID</label>
+            <input id="appointment_id" name="appointment_id"
+                   type="number" min="1" required>
+
+            <label for="customer_email">Email address</label>
+            <input id="customer_email" name="customer_email"
+                   type="email" required>
+
+            <button type="submit">Cancel booking</button>
+        </form>
+
+        <a href="{{ url_for('index') }}">Back to slots</a>
+    </main>
+</body>
+</html>
